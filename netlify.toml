@@ -1,0 +1,7 @@
+[build]
+    command = "npm app.js"
+
+[[redirects]]
+  from = "/*"
+  to = "/shop"
+  status = 200

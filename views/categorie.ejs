@@ -1,0 +1,120 @@
+<%- include('includes/head.ejs') %>
+
+    <%- include('includes/nav.ejs') %>
+
+        <!-- Page Info -->
+        <div class="page-info-section page-info-big">
+            <div class="container">
+                <h2>
+                    <%= pageInfo %>
+                </h2>
+                <div class="site-breadcrumb">
+                    <a href="/">Home</a> /
+                    <span><%= pageInfo %></span>
+                </div>
+                <img src="/img/categorie-page-top.png" alt="" class="cata-top-pic">
+            </div>
+        </div>
+        <!-- Page Info end -->
+
+
+        <!-- Page -->
+        <div class="page-area categorie-page spad">
+            <div class="container">
+                <div class="categorie-filter-warp">
+                    <p>Showing
+                        <%= products.length %> results</p>
+                    <div class="cf-right">
+                        <!-- <div class="cf-layouts">
+                            <a href="#"><img src="/img/icons/layout-1.png" alt=""></a>
+                            <a class="active" href="#"><img src="/img/icons/layout-2.png" alt=""></a>
+                        </div> -->
+                        <form action="#">
+
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <%if(products.length > 0){%>
+                        <%for(product of products){%>
+                            <div class="col-lg-3">
+                                <div class="product-item">
+                                    <figure>
+                                        <%if(product.gender == 'Male'){%>
+                                            <a href="/shop/men/<%= product._id %>">
+                                            <img src="<%=product.imageUrl %>" alt="<%= product.title %>">
+                                        </a>
+                                            <%}else{%>
+                                                <a href="/shop/women/<%= product._id %>">
+                                                <img src="<%=product.imageUrl %>" alt="<%= product.title %>">
+                                            </a>
+                                                <%}%>
+                                                    <% if(product.newProduct) {%>
+                                                        <div class="bache">NEW</div>
+                                                        <%}else if(product.sale){%>
+                                                            <div class="bache sale">SALE</div>
+                                                            <%}%>
+                                                                <div class="pi-meta">
+                                                                    <div class="pi-m-left">
+                                                                        <%if(product.gender == 'Male'){%>
+                                                                            <a href="/shop/men/<%= product._id %>">
+                                                                                <img src="/img/icons/eye.png" alt="">
+                                                                                <p>quick view</p>
+                                                                            </a>
+                                                                            <%}else{%>
+                                                                                <a href="/shop/women/<%= product._id %>">
+                                                                                    <img src="/img/icons/eye.png" alt="">
+                                                                                    <p>quick view</p>
+                                                                                </a>
+                                                                                <%}%>
+                                                                    </div>
+                                                                    <div class="pi-m-right">
+                                                                        <img src="/img/icons/heart.png" alt="">
+                                                                        <p>save</p>
+                                                                    </div>
+                                                                </div>
+                                    </figure>
+                                    <div class="product-info">
+                                        <h6>
+                                            <%if(product.gender == 'Male'){%>
+                                                <a style="text-decoration: none; color: black;" href="/shop/men/<%= product._id %>">
+                                                    <%- product.title %>
+                                                </a>
+                                                <%}else{%>
+                                                    <a style="text-decoration: none; color: black;" href="/shop/women/<%= product._id %>">
+                                                        <%- product.title %>
+                                                    </a>
+                                                    <%}%>
+                                        </h6>
+                                        <p>$
+                                            <%- product.price %>
+                                                <%if(product.sale){%>
+                                                    <strike style="color: rgba(255, 0, 0, 0.6); font-size: 16px;"> <%- product.oldPrice%>$ </strike>
+                                                    <%}%>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <%}%>
+                                <%}else{%>
+                                    <h3>No products was found</h3>
+                                    <%}%>
+                </div>
+                <%if(products.length != 0){%>
+                    <% let count = (products.length / 4) + 1;%>
+                        <div class="site-pagination">
+                            <% for(let i = 1 ; i < count ; i++) {%>
+                                <%if(i > 1){%>
+                                    <span>0<%=i%>.</span>
+                                    <%}else{%>
+                                        <span class="active">0<%=i%>.</span>
+                                        <%}%>
+                                            <%}%>
+                        </div>
+                        <%}%>
+            </div>
+        </div>
+        <!-- Page -->
+
+
+        <%- include('includes/foot.ejs') %>

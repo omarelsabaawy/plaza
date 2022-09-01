@@ -1,0 +1,219 @@
+<%- include('includes/head.ejs') %>
+
+    <%- include('includes/nav.ejs') %>
+
+        <!-- Page Info -->
+        <div class="page-info-section page-info">
+            <div class="container">
+                <div class="site-breadcrumb">
+                    <a href="/">Home</a> /
+                    <%if(product.gender == 'Male'){%>
+                        <a href="/shop/men">Men</a> /
+                        <%}else{%>
+                            <a href="/shop/women">Women</a> /
+                            <%}%>
+                                <a href="/shop/<%= product.category %>">
+                                    <%= product.category %>
+                                </a> /
+                                <span><%= product.title %></span>
+                </div>
+                <img src="/img/page-info-art.png" alt="" class="page-info-art">
+            </div>
+        </div>
+        <!-- Page Info end -->
+
+
+        <!-- Page -->
+        <div class="page-area product-page spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <figure>
+                            <img class="product-big-img" src="<%= product.imageUrl %>" alt="<%= product.title %>">
+                        </figure>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="product-content">
+                            <h2>
+                                <%= product.title%>
+                            </h2>
+                            <div class="pc-meta">
+                                <h4 class="price">$
+                                    <%= product.price%>
+                                        <%if(product.sale){%>
+                                            <strike style="font-size: 18px; color: rgba(255, 0, 0, 0.6);"><%= product.oldPrice%>$</strike>
+                                            <%}%>
+                                </h4>
+                            </div>
+                            <p>
+                                <%= product.description%>
+                            </p>
+                            <form action="/addToCart" method="POST">
+                                <% let cat = product.category; %>
+                                    <% let exist = cat.search(/Shoes/);%>
+                                        <% if(exist == -1) {%>
+                                            <div class="size-choose">
+                                                <span>Size:</span>
+                                                <div style="padding-top: 1.6%;">
+                                                    <select name="size" style="border-radius: 5px;">
+                                                        <option value="XS">XS</option>
+                                                        <option value="S">S</option>                                                                    <option value="XS">XS</option>
+                                                        <option value="M">M</option>
+                                                        <option value="L">L</option>
+                                                        <option value="XL">XL</option>                                                            
+                                                        </select>
+                                                </div>
+                                            </div>
+                                            <%}else{%>
+                                                <div class="size-choose">
+                                                    <span>Size:</span>
+                                                    <%if(product.gender == 'Male'){%>
+                                                        <div style="padding-top: 1.6%;">
+                                                            <select name="size" style="border-radius: 5px;">
+                                                                    <%for(let i = 7 ; i <= 15 ; i += 0.5){%>
+                                                                    <option value="<%=i%> US"><%=i%> US</option>
+                                                                    <%}%>
+                                                                </select>
+                                                        </div>
+                                                        <%}else{%>
+                                                            <div style="padding-top: 1.6%;">
+                                                                <select name="size" style="border-radius: 5px;">
+                                                                        <%for(let i = 7 ; i <= 15 ; i += 0.5){%>
+                                                                        <option value="<%=i%> US"><%=i%> US</option>
+                                                                        <%}%>
+                                                                    </select>
+                                                            </div>
+                                                            <%}%>
+                                                </div>
+                                                <%}%>
+
+                                                    <p style="color: black; font-size: 16px;">Free Shipping* <br> Arrives by
+                                                        <span id="getDayName"></span>,
+                                                        <span id="getMonthName"></span>
+                                                        <span id="getDayNumber"></span> to Egypt</p>
+                                                    <script>
+                                                        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                                                        const days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+                                                        const shippingDay = new Date();
+                                                        shippingDay.setDate(shippingDay.getDate() + 4);
+                                                        document.getElementById('getDayNumber').innerHTML = shippingDay.getDate();
+                                                        document.getElementById('getMonthName').innerHTML = months[shippingDay.getMonth()];
+                                                        document.getElementById('getDayName').innerHTML = days[shippingDay.getDay()];
+                                                    </script>
+
+                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                    <button class="site-btn btn-line" type="submit">Add to Cart</button>
+                                                    <input type="hidden" name="productId" value="<%= product._id %>">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-details ">
+                    <div class="row ">
+                        <div class="col-lg-10 offset-lg-1 ">
+                            <ul class="nav " role="tablist ">
+                                <li class="nav-item ">
+                                    <a class="nav-link active " id="1-tab " data-toggle="tab " href="#tab-1 " role="tab " aria-controls="tab-1 " aria-selected="true ">Description</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link " id="2-tab " data-toggle="tab " href="#tab-2 " role="tab " aria-controls="tab-2 " aria-selected="false ">Additional information</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link " id="3-tab " data-toggle="tab " href="#tab-3 " role="tab " aria-controls="tab-3 " aria-selected="false ">Reviews</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content ">
+                                <!-- single tab content -->
+                                <div class="tab-pane fade show active " id="tab-1 " role="tabpanel " aria-labelledby="tab-1 ">
+                                    <p>
+                                        <%= product.description%>
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade " id="tab-2 " role="tabpanel " aria-labelledby="tab-2 ">
+                                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                                        Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit
+                                        amet, consectetur, adipisci velit</p>
+                                </div>
+                                <div class="tab-pane fade " id="tab-3 " role="tabpanel " aria-labelledby="tab-3 ">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center rp-title ">
+                    <h5>Related products</h5>
+                </div>
+                <div class="row ">
+                    <%if(relatedProducts.length != 0){%>
+                        <%for(prod of relatedProducts){%>
+                            <%if(prod._id != product._id){%>
+                                <div class="col-lg-3">
+                                    <div class="product-item">
+                                        <figure>
+                                            <a href="/product/<%= prod._id%>">
+                                            <img src="<%=prod.imageUrl %>" alt="<%= prod.title %>">
+                                        </a>
+                                            <% if(prod.newProduct) {%>
+                                                <div class="bache">NEW</div>
+                                                <%}else if(prod.sale){%>
+                                                    <div class="bache sale">SALE</div>
+                                                    <%}%>
+                                                        <div class="pi-meta">
+                                                            <div class="pi-m-left">
+                                                                <%if(product.gender == 'Male'){%>
+                                                                    <a href="/shop/men/<%= prod._id %>">
+                                                                        <img src="/img/icons/eye.png" alt="">
+                                                                        <p>quick view</p>
+                                                                    </a>
+                                                                    <%}else{%>
+                                                                        <a href="/shop/women/<%= prod._id %>">
+                                                                            <img src="/img/icons/eye.png" alt="">
+                                                                            <p>quick view</p>
+                                                                        </a>
+                                                                        <%}%>
+                                                            </div>
+                                                            <div class="pi-m-right">
+                                                                <img src="/img/icons/heart.png" alt="">
+                                                                <p>save</p>
+                                                            </div>
+                                                        </div>
+                                        </figure>
+                                        <div class="product-info">
+                                            <h6>
+                                                <%if(product.gender == 'Male'){%>
+                                                    <a style="text-decoration: none; color: black;" href="/shop/men/<%= product._id %>">
+                                                        <%- product.title %>
+                                                    </a>
+                                                    <%}else{%>
+                                                        <a style="text-decoration: none; color: black;" href="/shop/women/<%= product._id %>">
+                                                            <%- product.title %>
+                                                        </a>
+                                                        <%}%>
+                                            </h6>
+                                            <p>$
+                                                <%- prod.price %>
+                                                    <%if(prod.sale){%>
+                                                        <strike style="color: rgba(255, 0, 0, 0.6); font-size: 16px;"> <%- prod.oldPrice%>$ </strike>
+                                                        <%}%>
+                                            </p>
+                                            <form action="/cart" method="POST">
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                <button class="site-btn btn-line" type="submit">Add to Cart</button>
+                                                <input type="hidden" name="productId" value="<%= prod._id %>">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%}%>
+                                    <%}%>
+                                        <%}else{%>
+                                            <h4>No Related Products found!</h4>
+                                            <%}%>
+                </div>
+            </div>
+        </div>
+        <!-- Page end -->
+
+
+
+        <%- include('includes/foot.ejs') %>

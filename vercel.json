@@ -1,0 +1,10 @@
+{
+    "version": 2,
+    "name": "theplaza",
+    "builds": [
+        { "src": "app.js", "use": "@vercel/node" }
+    ],
+    "routes": [
+        { "src": "/", "dest": "routes/shop.js" }
+    ]
+}

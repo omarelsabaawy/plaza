@@ -1,0 +1,110 @@
+<%- include('includes/head.ejs') %>
+
+    <style>
+        #myTable {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ddd;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        #myTable th,
+        #myTable td {
+            text-align: left;
+            padding: 12px;
+        }
+        
+        #myTable tr {
+            border-bottom: 1px solid #ddd;
+        }
+        
+        #myTable tr.header,
+        #myTable tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+
+    <%- include('includes/nav.ejs') %>
+
+        <div class="page-info-section page-info">
+            <div class="container">
+                <div class="site-breadcrumb">
+                    <a href="/">Home</a> /
+                    <span>Admin</span>
+                </div>
+                <img src="img/page-info-art.png" alt="" class="page-info-art">
+            </div>
+        </div>
+        <div class="page-area contact-page">
+            <div class="container spad">
+                <div class="text-center">
+                    <h4 class="contact-title">Manage your products</h4>
+                </div>
+                <% if (products.length > 0) { %>
+                    <table id="myTable">
+                        <tr class="header">
+                            <th style="width:25%;">Product Name</th>
+                            <th style="width:25%;">Price</th>
+                            <th style="width:25%;">Quantity</th>
+                            <th style="width:25%;">Actions</th>
+                        </tr>
+                        <% for (let product of products) { %>
+                            <tr>
+                                <td>
+                                    <%if(product.newProduct){%>
+                                        <%= product.title%> <span style="color: blue;"> New </span>
+                                            <%}else{%>
+                                                <%= product.title%>
+                                                    <%}%>
+                                </td>
+                                <td>
+                                    <%if(product.sale){%>
+                                        <%= product.price%>$ <span style="color: red;"> <strike> <%= product.oldPrice%>$ </strike></span>
+                                            <%}else{%>
+                                                <%= product.price%>$
+                                                    <%}%>
+                                </td>
+                                <td>
+                                    <%if(product.quantity <= 3){%>
+                                        <%= product.quantity%>
+                                            <span style="color: red;"> Low in Stock</span>
+                                            <%}else{%>
+                                                <%= product.quantity%>
+                                                    <%}%>
+                                </td>
+                                <td>
+                                    <a class="edit-btn" href="/admin/edit-product/<%= product._id %>?edit=true"><i class="fa fa-edit"></i></a>
+                                    <form action="/admin/delete-product" method="POST">
+                                        <input type="hidden" value="<%= product._id %>" name="productId">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        <button style="background-color: transparent; border-color: transparent; color: red;" type="submit"><i class="fa fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% } %>
+                    </table>
+                    <% } else { %>
+                        <h4 style="text-align: center;">No Products Found!</h4>
+                        <% } %>
+                            <div class="container contact-info-warp">
+                                <div class="contact-card">
+                                    <div class="contact-info">
+                                        <h4>Shipping & Returnes</h4>
+                                        <p>Phone: +53 345 7953 32453</p>
+                                        <p>Email: yourmail@gmail.com</p>
+                                    </div>
+                                    <div class="contact-info">
+                                        <h4>Informations</h4>
+                                        <p>Phone: +53 345 7953 32453</p>
+                                        <p>Email: yourmail@gmail.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="map-area">
+                                <div class="map" id="map-canvas"></div>
+                            </div>
+            </div>
+        </div>
+        </div>
+        <%- include('includes/foot.ejs') %>

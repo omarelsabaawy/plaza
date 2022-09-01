@@ -1,0 +1,99 @@
+<%- include('includes/head.ejs') %>
+    <%- include('includes/nav.ejs') %>
+
+        <!-- Page Info -->
+        <div class="page-info-section page-info">
+            <div class="container">
+                <div class="site-breadcrumb">
+                    <a href="/">Home</a> /
+                    <a href="/admin/manage-products">Admin</a> /
+                    <span>Add Product</span>
+                </div>
+                <img src="img/page-info-art.png" alt="" class="page-info-art">
+            </div>
+        </div>
+        <!-- Page Info end -->
+
+
+        <!-- Page -->
+        <div class="page-area contact-page">
+            <div class="container spad">
+                <div class="text-center">
+                    <h4 class="contact-title">
+                        <% if(editing) {%> Edit
+                            <%= product.title %>
+                                <%} else { %>Add a new Product
+                                    <% }%>
+                    </h4>
+                </div>
+                <form class="contact-form" method="POST" action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input name="title" type="text" placeholder="title *" value="<% if (editing) { %><%= product.title %><% } %>">
+                        </div>
+                        <div class="col-md-6">
+                            <input name="price" type="Number" placeholder="price *" step="0.01" value="<% if (editing) { %><%= product.price%><% } %>">
+                        </div>
+                        <div class="col-md-6">
+                            <input name="description" type="text" placeholder="description *" value="<% if (editing) { %><%= product.description %><% } %>">
+                        </div>
+                        <div class="col-md-6">
+                            <input name="category" type="text" placeholder="category *" value="<% if (editing) { %><%= product.category %><% } %>">
+                        </div>
+                        <div class="col-md-6">
+                            <input name="gender" type="text" placeholder="gender *" value="<% if (editing) { %><%= product.gender %><% } %>">
+                        </div>
+                        <div class="col-md-6">
+                            <input name="imageUrl" type="text" placeholder="imageUrl *" value="<% if (editing) { %><%= product.imageUrl %><% } %>">
+                        </div>
+                        <div class="col-md-6">
+                            <input name="quantity" type="Number" placeholder="quantity *" value="<% if (editing) { %><%= product.quantity %><% } %>">
+                        </div>
+                        <div class="col-md-6">
+                            <input name="newProduct" type="text" placeholder="isNew *" value="<% if (editing) { %><%= product.newProduct%><% } %>">
+                        </div>
+                        <div class="col-md-6">
+                            <input name="sale" type="text" placeholder="sale *" value="<% if (editing) { %><%= product.sale %><% } %>">
+                        </div>
+                        <div class="col-md-6">
+                            <input name="oldPrice" type="Number" placeholder="oldPrice *" step="0.01" value="<% if (editing) { %><%= product.oldPrice %><% } %>">
+                        </div>
+                        <% if (editing) { %>
+                            <input type="hidden" value="<%= product._id %>" name="productId">
+                            <% } %>
+                                <div class="col-md-12">
+                                    <div class="text-center">
+                                        <button class="site-btn">
+                                    <%if(!editing){%>
+                                        Add Product
+                                    <%}else{%>
+                                        Edit Product
+                                        <%}%>
+                                </button>
+                                    </div>
+                                </div>
+                    </div>
+                </form>
+            </div>
+            <div class="container contact-info-warp">
+                <div class="contact-card">
+                    <div class="contact-info">
+                        <h4>Shipping & Returnes</h4>
+                        <p>Phone: +53 345 7953 32453</p>
+                        <p>Email: yourmail@gmail.com</p>
+                    </div>
+                    <div class="contact-info">
+                        <h4>Informations</h4>
+                        <p>Phone: +53 345 7953 32453</p>
+                        <p>Email: yourmail@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="map-area">
+                <div class="map" id="map-canvas"></div>
+            </div>
+        </div>
+        <!-- Page end -->
+
+        <%- include('includes/foot.ejs') %>

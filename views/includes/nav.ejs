@@ -1,0 +1,49 @@
+<!-- Header section -->
+<header class="header-section">
+    <div class="container-fluid">
+        <!-- logo -->
+        <div class="site-logo">
+            <img src="/img/logo.png" alt="logo">
+        </div>
+        <!-- responsive -->
+        <div class="nav-switch">
+            <i class="fa fa-bars"></i>
+        </div>
+        <div class="header-right">
+            <a href="/cart" class="card-bag"><img src="/img/icons/bag.png" alt=""><span><%= totalQuantity%></span></a>
+            <a href="#" class="search"><img src="/img/icons/search.png" alt=""></a>
+        </div>
+        <!-- site menu -->
+        <ul class="main-menu">
+            <li><a href="/">Home</a></li>
+            <% if(isAuth && user.isManager) {%>
+                <li><a href="/admin/products">products</a></li>
+                <li><a href="/admin/manage-products">Manage</a></li>
+                <li><a href="/admin/add-product">Add</a></li>
+                <%}else{%>
+                    <li><a href="/shop/women">Woman</a></li>
+                    <li><a href="/shop/men">Man</a></li>
+                    <li><a href="/contactUs">ContactUs</a></li>
+                    <%}%>
+                        <% if(!isAuth) {%>
+                            <li><a href="/login">Login</a></li>
+                            <li><a href="/Registration">register</a></li>
+                            <%}else{%>
+                                <li>
+                                    <a href="/">
+                                        <%= user.fname %>
+                                    </a>
+                                </li>
+                                <li>
+                                    <form action="/logout" method="post">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        <button style="background-color: transparent; border-color: transparent;" type="submit">
+                                <li><a>Logout</a></li>
+                            </button>
+                                    </form>
+                                </li>
+                                <%}%>
+        </ul>
+    </div>
+</header>
+<!-- Header section end -->
